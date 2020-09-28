@@ -231,6 +231,9 @@ class TrainingScene extends util.Entity {
   onDonePart1() {
     document.getElementById("training-1").style.display = "none";
     document.getElementById("training-2").style.display = "block";
+
+    // hide title
+    document.getElementById("training-title").style.visibility = "hidden";
   }
 
   onDonePart2() {
@@ -839,6 +842,13 @@ app.loader
   .load(setup);
 
 // Load RedMetrics
+function showRedMetricsStatus(status) {
+  for(const child of document.getElementById("redmetrics-connection-status").children) {
+    const shouldShow = child.id === `redmetrics-connection-status-${status}`;
+    child.style.display = shouldShow ? "block" : "none";
+  }
+}
+
 let playerData = {
   externalId: searchParams.get("userId") || searchParams.get("userID"),
   customData: {
@@ -855,6 +865,9 @@ redmetricsConnection = redmetrics.prepareWriteConnection({
 });
 redmetricsConnection.connect().then(function() {
   console.log("Connected to the RedMetrics server");
+  showRedMetricsStatus("connected");
+}).catch(function() {
+  showRedMetricsStatus("disconnected");
 });
 
 // Connect to parallel port via Mister P
