@@ -318,9 +318,11 @@ class BlockScene extends util.Entity {
     this.onAttemptDone = this.onAttemptDone.bind(this);
     this.cancelModal = this.cancelModal.bind(this);
     this.confirmDone = this.confirmDone.bind(this);
+    this.onKeyUp = this.onKeyUp.bind(this);
     document.getElementById("add-shape").addEventListener("click", this.onAddShape);
     document.getElementById("modal-confirm-cancel-button").addEventListener("click", this.cancelModal);
     document.getElementById("modal-confirm-done-button").addEventListener("click", this.confirmDone);
+    document.getElementById("pixi-canvas").addEventListener("keyup", this.onKeyUp);
 
     // Don't allow player to leave early if allowEarlyExit is false
     const doneAddingButton = document.getElementById("done-adding");
@@ -439,6 +441,11 @@ class BlockScene extends util.Entity {
 
 
     this.draggingBlock.position = util.subtract(e.data.getLocalPosition(app.stage), this.blocksContainer.position);
+  }
+
+  onKeyUp(e) {
+    // If they pressed a number key, add the shape
+    if(!isNaN(parseInt(e.key))) this.onAddShape();
   }
 
   updateBlocks() {
