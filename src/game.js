@@ -10,7 +10,7 @@ const BLOCK_COLOR = 0x81e700;
 const HIGHLIGHTED_BLOCK_COLOR = 0x59853b;
 const DRAG_HIGHLIGHT_PERIOD = 500;
 const RED_METRICS_HOST = "api.creativeforagingtask.com";
-const RED_METRICS_GAME_VERSION = "0b0986f3-9119-4d90-82fb-20ee4842da69";
+const RED_METRICS_GAME_VERSION = "b13751f1-637f-411b-8ce2-29b1b24fddf0";
 
 
 const TRIGGERS = {
@@ -867,7 +867,7 @@ let playerData = {
 
 redmetricsConnection = redmetrics.prepareWriteConnection({ 
   host: RED_METRICS_HOST,
-  gameVersionId: RED_METRICS_GAME_VERSION,
+  gameVersionId: searchParams.get("gameVersion") || RED_METRICS_GAME_VERSION,
   player: playerData
 });
 redmetricsConnection.connect().then(function() {
