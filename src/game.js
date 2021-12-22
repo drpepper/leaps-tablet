@@ -152,7 +152,7 @@ class IntroScene extends util.Entity {
   }
 
   onDone() {
-    playerData.customData.userProvidedId = document.getElementById("user-provided-id").value;
+    playerData.custom_data.userProvidedId = document.getElementById("user-provided-id").value;
     redmetricsConnection.updateSession(playerData);
 
     this.done = true;
@@ -452,7 +452,7 @@ class BlockScene extends util.Entity {
     this.lastMouseUpTime = Date.now();
     redmetricsConnection.postEvent({
       type: "movedBlock",
-      customData: {
+      custom_data: {
         startPosition: pointToArray(this.draggingBlockStartGridPosition),
         endPosition: pointToArray(closestGridPos),
         time: Date.now() - this.startDragTime,
@@ -534,7 +534,8 @@ class BlockScene extends util.Entity {
 
     redmetricsConnection.postEvent({
       type: "added shape to gallery",
-      customData: {
+      // TODO: rename back to `customData` once bug is fixed in backend
+      custom_data: {
         shape: convertShapeToArray(this.blockGrid),
         timeSinceLastMouseUp: Date.now() - this.lastMouseUpTime
       }
@@ -660,7 +661,7 @@ class GalleryScene extends util.Entity {
 
     redmetricsConnection.postEvent({
       type: "selected shape",
-      customData: {
+      custom_data: {
         shapeIndex: shapeIndex,
         shape: convertShapeToArray(galleryShapes[shapeIndex]),
         isSelected: isSelected,
@@ -686,7 +687,7 @@ class GalleryScene extends util.Entity {
 
     redmetricsConnection.postEvent({
       type: "done selection",
-      customData: {
+      custom_data: {
         shapeIndices: this.selectedIndexes,
         shapes: selectedShapes
       }
@@ -738,7 +739,7 @@ class ResultsScene extends util.Entity {
         const expId = searchParams.get("expId") || searchParams.get("expID") || "";
         const userId = searchParams.get("userId") || searchParams.get("userID") || "";
         const metricsId = redmetricsConnection.sessionId || "";
-        const userProvidedId = playerData.customData.userProvidedId || "";
+        const userProvidedId = playerData.custom_data.userProvidedId || "";
 
         var link = searchParams.get("followupLink");
         if(!_.contains(link, "?")) link += "?";
@@ -811,7 +812,7 @@ app.loader
 // Load RedMetrics
 let playerData = {
   externalId: searchParams.get("userId") || searchParams.get("userID"),
-  customData: {
+  custom_data: {
     expId: searchParams.get("expId") || searchParams.get("expID"),
     userId: searchParams.get("userId") || searchParams.get("userID"),
     userAgent: navigator.userAgent

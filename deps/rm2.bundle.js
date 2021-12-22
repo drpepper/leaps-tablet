@@ -118,9 +118,9 @@ var rm2 = (() => {
     }
   });
 
-  // node_modules/axios/lib/helpers/bind.js
+  // node_modules/rm2-typings/node_modules/axios/lib/helpers/bind.js
   var require_bind = __commonJS({
-    "node_modules/axios/lib/helpers/bind.js"(exports, module) {
+    "node_modules/rm2-typings/node_modules/axios/lib/helpers/bind.js"(exports, module) {
       "use strict";
       module.exports = function bind(fn, thisArg) {
         return function wrap() {
@@ -134,9 +134,9 @@ var rm2 = (() => {
     }
   });
 
-  // node_modules/axios/lib/utils.js
+  // node_modules/rm2-typings/node_modules/axios/lib/utils.js
   var require_utils = __commonJS({
-    "node_modules/axios/lib/utils.js"(exports, module) {
+    "node_modules/rm2-typings/node_modules/axios/lib/utils.js"(exports, module) {
       "use strict";
       var bind = require_bind();
       var toString = Object.prototype.toString;
@@ -287,9 +287,9 @@ var rm2 = (() => {
     }
   });
 
-  // node_modules/axios/lib/helpers/buildURL.js
+  // node_modules/rm2-typings/node_modules/axios/lib/helpers/buildURL.js
   var require_buildURL = __commonJS({
-    "node_modules/axios/lib/helpers/buildURL.js"(exports, module) {
+    "node_modules/rm2-typings/node_modules/axios/lib/helpers/buildURL.js"(exports, module) {
       "use strict";
       var utils2 = require_utils();
       function encode(val) {
@@ -338,9 +338,9 @@ var rm2 = (() => {
     }
   });
 
-  // node_modules/axios/lib/core/InterceptorManager.js
+  // node_modules/rm2-typings/node_modules/axios/lib/core/InterceptorManager.js
   var require_InterceptorManager = __commonJS({
-    "node_modules/axios/lib/core/InterceptorManager.js"(exports, module) {
+    "node_modules/rm2-typings/node_modules/axios/lib/core/InterceptorManager.js"(exports, module) {
       "use strict";
       var utils2 = require_utils();
       function InterceptorManager() {
@@ -371,9 +371,9 @@ var rm2 = (() => {
     }
   });
 
-  // node_modules/axios/lib/helpers/normalizeHeaderName.js
+  // node_modules/rm2-typings/node_modules/axios/lib/helpers/normalizeHeaderName.js
   var require_normalizeHeaderName = __commonJS({
-    "node_modules/axios/lib/helpers/normalizeHeaderName.js"(exports, module) {
+    "node_modules/rm2-typings/node_modules/axios/lib/helpers/normalizeHeaderName.js"(exports, module) {
       "use strict";
       var utils2 = require_utils();
       module.exports = function normalizeHeaderName(headers, normalizedName) {
@@ -387,9 +387,9 @@ var rm2 = (() => {
     }
   });
 
-  // node_modules/axios/lib/core/enhanceError.js
+  // node_modules/rm2-typings/node_modules/axios/lib/core/enhanceError.js
   var require_enhanceError = __commonJS({
-    "node_modules/axios/lib/core/enhanceError.js"(exports, module) {
+    "node_modules/rm2-typings/node_modules/axios/lib/core/enhanceError.js"(exports, module) {
       "use strict";
       module.exports = function enhanceError(error, config, code, request, response) {
         error.config = config;
@@ -419,9 +419,9 @@ var rm2 = (() => {
     }
   });
 
-  // node_modules/axios/lib/core/createError.js
+  // node_modules/rm2-typings/node_modules/axios/lib/core/createError.js
   var require_createError = __commonJS({
-    "node_modules/axios/lib/core/createError.js"(exports, module) {
+    "node_modules/rm2-typings/node_modules/axios/lib/core/createError.js"(exports, module) {
       "use strict";
       var enhanceError = require_enhanceError();
       module.exports = function createError(message, config, code, request, response) {
@@ -431,9 +431,9 @@ var rm2 = (() => {
     }
   });
 
-  // node_modules/axios/lib/core/settle.js
+  // node_modules/rm2-typings/node_modules/axios/lib/core/settle.js
   var require_settle = __commonJS({
-    "node_modules/axios/lib/core/settle.js"(exports, module) {
+    "node_modules/rm2-typings/node_modules/axios/lib/core/settle.js"(exports, module) {
       "use strict";
       var createError = require_createError();
       module.exports = function settle(resolve, reject, response) {
@@ -447,9 +447,9 @@ var rm2 = (() => {
     }
   });
 
-  // node_modules/axios/lib/helpers/cookies.js
+  // node_modules/rm2-typings/node_modules/axios/lib/helpers/cookies.js
   var require_cookies = __commonJS({
-    "node_modules/axios/lib/helpers/cookies.js"(exports, module) {
+    "node_modules/rm2-typings/node_modules/axios/lib/helpers/cookies.js"(exports, module) {
       "use strict";
       var utils2 = require_utils();
       module.exports = utils2.isStandardBrowserEnv() ? function standardBrowserEnv() {
@@ -493,9 +493,9 @@ var rm2 = (() => {
     }
   });
 
-  // node_modules/axios/lib/helpers/isAbsoluteURL.js
+  // node_modules/rm2-typings/node_modules/axios/lib/helpers/isAbsoluteURL.js
   var require_isAbsoluteURL = __commonJS({
-    "node_modules/axios/lib/helpers/isAbsoluteURL.js"(exports, module) {
+    "node_modules/rm2-typings/node_modules/axios/lib/helpers/isAbsoluteURL.js"(exports, module) {
       "use strict";
       module.exports = function isAbsoluteURL(url) {
         return /^([a-z][a-z\d\+\-\.]*:)?\/\//i.test(url);
@@ -503,9 +503,9 @@ var rm2 = (() => {
     }
   });
 
-  // node_modules/axios/lib/helpers/combineURLs.js
+  // node_modules/rm2-typings/node_modules/axios/lib/helpers/combineURLs.js
   var require_combineURLs = __commonJS({
-    "node_modules/axios/lib/helpers/combineURLs.js"(exports, module) {
+    "node_modules/rm2-typings/node_modules/axios/lib/helpers/combineURLs.js"(exports, module) {
       "use strict";
       module.exports = function combineURLs(baseURL, relativeURL) {
         return relativeURL ? baseURL.replace(/\/+$/, "") + "/" + relativeURL.replace(/^\/+/, "") : baseURL;
@@ -513,9 +513,9 @@ var rm2 = (() => {
     }
   });
 
-  // node_modules/axios/lib/core/buildFullPath.js
+  // node_modules/rm2-typings/node_modules/axios/lib/core/buildFullPath.js
   var require_buildFullPath = __commonJS({
-    "node_modules/axios/lib/core/buildFullPath.js"(exports, module) {
+    "node_modules/rm2-typings/node_modules/axios/lib/core/buildFullPath.js"(exports, module) {
       "use strict";
       var isAbsoluteURL = require_isAbsoluteURL();
       var combineURLs = require_combineURLs();
@@ -528,9 +528,9 @@ var rm2 = (() => {
     }
   });
 
-  // node_modules/axios/lib/helpers/parseHeaders.js
+  // node_modules/rm2-typings/node_modules/axios/lib/helpers/parseHeaders.js
   var require_parseHeaders = __commonJS({
-    "node_modules/axios/lib/helpers/parseHeaders.js"(exports, module) {
+    "node_modules/rm2-typings/node_modules/axios/lib/helpers/parseHeaders.js"(exports, module) {
       "use strict";
       var utils2 = require_utils();
       var ignoreDuplicateOf = [
@@ -580,9 +580,9 @@ var rm2 = (() => {
     }
   });
 
-  // node_modules/axios/lib/helpers/isURLSameOrigin.js
+  // node_modules/rm2-typings/node_modules/axios/lib/helpers/isURLSameOrigin.js
   var require_isURLSameOrigin = __commonJS({
-    "node_modules/axios/lib/helpers/isURLSameOrigin.js"(exports, module) {
+    "node_modules/rm2-typings/node_modules/axios/lib/helpers/isURLSameOrigin.js"(exports, module) {
       "use strict";
       var utils2 = require_utils();
       module.exports = utils2.isStandardBrowserEnv() ? function standardBrowserEnv() {
@@ -620,9 +620,9 @@ var rm2 = (() => {
     }
   });
 
-  // node_modules/axios/lib/cancel/Cancel.js
+  // node_modules/rm2-typings/node_modules/axios/lib/cancel/Cancel.js
   var require_Cancel = __commonJS({
-    "node_modules/axios/lib/cancel/Cancel.js"(exports, module) {
+    "node_modules/rm2-typings/node_modules/axios/lib/cancel/Cancel.js"(exports, module) {
       "use strict";
       function Cancel(message) {
         this.message = message;
@@ -635,9 +635,9 @@ var rm2 = (() => {
     }
   });
 
-  // node_modules/axios/lib/adapters/xhr.js
+  // node_modules/rm2-typings/node_modules/axios/lib/adapters/xhr.js
   var require_xhr = __commonJS({
-    "node_modules/axios/lib/adapters/xhr.js"(exports, module) {
+    "node_modules/rm2-typings/node_modules/axios/lib/adapters/xhr.js"(exports, module) {
       "use strict";
       var utils2 = require_utils();
       var settle = require_settle();
@@ -781,9 +781,9 @@ var rm2 = (() => {
     }
   });
 
-  // node_modules/axios/lib/defaults.js
+  // node_modules/rm2-typings/node_modules/axios/lib/defaults.js
   var require_defaults = __commonJS({
-    "node_modules/axios/lib/defaults.js"(exports, module) {
+    "node_modules/rm2-typings/node_modules/axios/lib/defaults.js"(exports, module) {
       "use strict";
       var utils2 = require_utils();
       var normalizeHeaderName = require_normalizeHeaderName();
@@ -887,9 +887,9 @@ var rm2 = (() => {
     }
   });
 
-  // node_modules/axios/lib/core/transformData.js
+  // node_modules/rm2-typings/node_modules/axios/lib/core/transformData.js
   var require_transformData = __commonJS({
-    "node_modules/axios/lib/core/transformData.js"(exports, module) {
+    "node_modules/rm2-typings/node_modules/axios/lib/core/transformData.js"(exports, module) {
       "use strict";
       var utils2 = require_utils();
       var defaults = require_defaults();
@@ -903,9 +903,9 @@ var rm2 = (() => {
     }
   });
 
-  // node_modules/axios/lib/cancel/isCancel.js
+  // node_modules/rm2-typings/node_modules/axios/lib/cancel/isCancel.js
   var require_isCancel = __commonJS({
-    "node_modules/axios/lib/cancel/isCancel.js"(exports, module) {
+    "node_modules/rm2-typings/node_modules/axios/lib/cancel/isCancel.js"(exports, module) {
       "use strict";
       module.exports = function isCancel(value) {
         return !!(value && value.__CANCEL__);
@@ -913,9 +913,9 @@ var rm2 = (() => {
     }
   });
 
-  // node_modules/axios/lib/core/dispatchRequest.js
+  // node_modules/rm2-typings/node_modules/axios/lib/core/dispatchRequest.js
   var require_dispatchRequest = __commonJS({
-    "node_modules/axios/lib/core/dispatchRequest.js"(exports, module) {
+    "node_modules/rm2-typings/node_modules/axios/lib/core/dispatchRequest.js"(exports, module) {
       "use strict";
       var utils2 = require_utils();
       var transformData = require_transformData();
@@ -956,9 +956,9 @@ var rm2 = (() => {
     }
   });
 
-  // node_modules/axios/lib/core/mergeConfig.js
+  // node_modules/rm2-typings/node_modules/axios/lib/core/mergeConfig.js
   var require_mergeConfig = __commonJS({
-    "node_modules/axios/lib/core/mergeConfig.js"(exports, module) {
+    "node_modules/rm2-typings/node_modules/axios/lib/core/mergeConfig.js"(exports, module) {
       "use strict";
       var utils2 = require_utils();
       module.exports = function mergeConfig(config1, config2) {
@@ -1038,18 +1038,18 @@ var rm2 = (() => {
     }
   });
 
-  // node_modules/axios/lib/env/data.js
+  // node_modules/rm2-typings/node_modules/axios/lib/env/data.js
   var require_data = __commonJS({
-    "node_modules/axios/lib/env/data.js"(exports, module) {
+    "node_modules/rm2-typings/node_modules/axios/lib/env/data.js"(exports, module) {
       module.exports = {
         "version": "0.24.0"
       };
     }
   });
 
-  // node_modules/axios/lib/helpers/validator.js
+  // node_modules/rm2-typings/node_modules/axios/lib/helpers/validator.js
   var require_validator = __commonJS({
-    "node_modules/axios/lib/helpers/validator.js"(exports, module) {
+    "node_modules/rm2-typings/node_modules/axios/lib/helpers/validator.js"(exports, module) {
       "use strict";
       var VERSION = require_data().version;
       var validators = {};
@@ -1103,9 +1103,9 @@ var rm2 = (() => {
     }
   });
 
-  // node_modules/axios/lib/core/Axios.js
+  // node_modules/rm2-typings/node_modules/axios/lib/core/Axios.js
   var require_Axios = __commonJS({
-    "node_modules/axios/lib/core/Axios.js"(exports, module) {
+    "node_modules/rm2-typings/node_modules/axios/lib/core/Axios.js"(exports, module) {
       "use strict";
       var utils2 = require_utils();
       var buildURL = require_buildURL();
@@ -1215,9 +1215,9 @@ var rm2 = (() => {
     }
   });
 
-  // node_modules/axios/lib/cancel/CancelToken.js
+  // node_modules/rm2-typings/node_modules/axios/lib/cancel/CancelToken.js
   var require_CancelToken = __commonJS({
-    "node_modules/axios/lib/cancel/CancelToken.js"(exports, module) {
+    "node_modules/rm2-typings/node_modules/axios/lib/cancel/CancelToken.js"(exports, module) {
       "use strict";
       var Cancel = require_Cancel();
       function CancelToken(executor) {
@@ -1297,9 +1297,9 @@ var rm2 = (() => {
     }
   });
 
-  // node_modules/axios/lib/helpers/spread.js
+  // node_modules/rm2-typings/node_modules/axios/lib/helpers/spread.js
   var require_spread = __commonJS({
-    "node_modules/axios/lib/helpers/spread.js"(exports, module) {
+    "node_modules/rm2-typings/node_modules/axios/lib/helpers/spread.js"(exports, module) {
       "use strict";
       module.exports = function spread(callback) {
         return function wrap(arr) {
@@ -1309,9 +1309,9 @@ var rm2 = (() => {
     }
   });
 
-  // node_modules/axios/lib/helpers/isAxiosError.js
+  // node_modules/rm2-typings/node_modules/axios/lib/helpers/isAxiosError.js
   var require_isAxiosError = __commonJS({
-    "node_modules/axios/lib/helpers/isAxiosError.js"(exports, module) {
+    "node_modules/rm2-typings/node_modules/axios/lib/helpers/isAxiosError.js"(exports, module) {
       "use strict";
       module.exports = function isAxiosError(payload) {
         return typeof payload === "object" && payload.isAxiosError === true;
@@ -1319,9 +1319,9 @@ var rm2 = (() => {
     }
   });
 
-  // node_modules/axios/lib/axios.js
+  // node_modules/rm2-typings/node_modules/axios/lib/axios.js
   var require_axios = __commonJS({
-    "node_modules/axios/lib/axios.js"(exports, module) {
+    "node_modules/rm2-typings/node_modules/axios/lib/axios.js"(exports, module) {
       "use strict";
       var utils2 = require_utils();
       var bind = require_bind();
@@ -1354,9 +1354,9 @@ var rm2 = (() => {
     }
   });
 
-  // node_modules/axios/index.js
+  // node_modules/rm2-typings/node_modules/axios/index.js
   var require_axios2 = __commonJS({
-    "node_modules/axios/index.js"(exports, module) {
+    "node_modules/rm2-typings/node_modules/axios/index.js"(exports, module) {
       module.exports = require_axios();
     }
   });
