@@ -153,8 +153,7 @@ class IntroScene extends util.Entity {
 
   onDone() {
     playerData.customData.userProvidedId = document.getElementById("user-provided-id").value;
-    // TODO: restore
-    // redmetricsConnection.updatePlayer(playerData);
+    redmetricsConnection.updateSession(playerData);
 
     this.done = true;
   }

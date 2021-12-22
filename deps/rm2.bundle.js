@@ -1458,15 +1458,15 @@ var rm2 = (() => {
   });
   var types = __toModule(require_dist());
   var WriteConnection = class {
-    constructor(config) {
-      this.config = config;
+    constructor(_config) {
       this._eventQueue = [];
       this._bufferingInterval = null;
       this._connected = false;
       this._api = types.utils.request;
+      this._config = _config;
       types.utils.setupConfig({
-        params: { apikey: config.apiKey },
-        baseURL: config.baseUrl
+        params: { apikey: _config.apiKey },
+        baseURL: _config.baseUrl
       });
     }
     get isConnected() {
@@ -1486,11 +1486,11 @@ var rm2 = (() => {
       if (!apiKey)
         throw new Error("Invalid API key !");
       console.log("RM2: WriteConnection connected");
-      const data = await this._api("Post", "/session", this.config.session ? this.config.session : {});
+      const data = await this._api("Post", "/session", this._config.session ? this._config.session : {});
       this._sessionId = data.id;
       console.log("created session", this._sessionId);
       this._connected = true;
-      this._bufferingInterval = setInterval(this.sendData.bind(this), (_a = this.config.bufferingDelay) != null ? _a : 1e3);
+      this._bufferingInterval = setInterval(this.sendData.bind(this), (_a = this._config.bufferingDelay) != null ? _a : 1e3);
     }
     async disconnect(emitted) {
       if (!this._connected) {
@@ -1529,6 +1529,13 @@ var rm2 = (() => {
       if (!eventToPost.user_time)
         eventToPost.user_time = new Date().toISOString();
       this._eventQueue.push(eventToPost);
+    }
+    async updateSession(session) {
+      this._config.session = session;
+      if (!this._connected)
+        return;
+      console.log("RM2: WriteConnection updating session", session);
+      await this._api("Put", `/session/${this._sessionId}`, session);
     }
   };
   return src_exports;
