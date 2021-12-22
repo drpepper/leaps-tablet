@@ -9,8 +9,10 @@ const MAX_SEARCH_TIME = 12 * 60 * 1000;
 const BLOCK_COLOR = 0x81e700;
 const HIGHLIGHTED_BLOCK_COLOR = 0x59853b;
 const DRAG_HIGHLIGHT_PERIOD = 500;
-const RED_METRICS_HOST = "api.creativeforagingtask.com";
-const RED_METRICS_GAME_VERSION = "0b0986f3-9119-4d90-82fb-20ee4842da69";
+// const RED_METRICS_HOST = "api.creativeforagingtask.com";
+// const RED_METRICS_GAME_VERSION = "0b0986f3-9119-4d90-82fb-20ee4842da69";
+const RM2_BASE_URL = "http://localhost:6627/v2";
+const RM2_API_KEY = "d86b502f-468d-47af-b1ce-b7526e4fe5fc";
 
 
 function gridPosToPixelPos(gridPos) {
@@ -151,7 +153,8 @@ class IntroScene extends util.Entity {
 
   onDone() {
     playerData.customData.userProvidedId = document.getElementById("user-provided-id").value;
-    redmetricsConnection.updatePlayer(playerData);
+    // TODO: restore
+    // redmetricsConnection.updatePlayer(playerData);
 
     this.done = true;
   }
@@ -728,14 +731,14 @@ class ResultsScene extends util.Entity {
         el.innerText = searchScorePercent;
       }
 
-      document.getElementById("code").innerText = redmetricsConnection.playerId ? 
-        redmetricsConnection.playerId.substr(-8) : "Unknown";
+      document.getElementById("code").innerText = redmetricsConnection.sessionId ? 
+        redmetricsConnection.sessionId.substr(-8) : "Unknown";
 
       // Setup followup link
       if(searchParams.has("followupLink")) {
         const expId = searchParams.get("expId") || searchParams.get("expID") || "";
         const userId = searchParams.get("userId") || searchParams.get("userID") || "";
-        const metricsId = redmetricsConnection.playerId || "";
+        const metricsId = redmetricsConnection.sessionId || "";
         const userProvidedId = playerData.customData.userProvidedId || "";
 
         var link = searchParams.get("followupLink");
@@ -816,13 +819,16 @@ let playerData = {
   }
 };
 
-redmetricsConnection = redmetrics.prepareWriteConnection({ 
-  host: RED_METRICS_HOST,
-  gameVersionId: RED_METRICS_GAME_VERSION,
-  player: playerData
+redmetricsConnection = new rm2.WriteConnection({ 
+  // host: RED_METRICS_HOST,
+  // gameVersionId: RED_METRICS_GAME_VERSION,
+
+  session: playerData,
+  baseUrl: RM2_BASE_URL,
+  apiKey: RM2_API_KEY
 });
 redmetricsConnection.connect().then(function() {
-  console.log("Connected to the RedMetrics server");
+  console.log("Connected to RM2");
 });
 
 // Resize
