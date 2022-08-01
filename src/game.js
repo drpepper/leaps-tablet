@@ -12,7 +12,7 @@ const DRAG_HIGHLIGHT_PERIOD = 500;
 // const RED_METRICS_HOST = "api.creativeforagingtask.com";
 // const RED_METRICS_GAME_VERSION = "0b0986f3-9119-4d90-82fb-20ee4842da69";
 const RM2_BASE_URL = "http://localhost:6627/v2";
-const RM2_API_KEY = "d86b502f-468d-47af-b1ce-b7526e4fe5fc";
+const RM2_API_KEY = "92f2e314-86be-4b5d-a973-10ddec897035";
 
 
 function gridPosToPixelPos(gridPos) {
