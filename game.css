@@ -123,8 +123,8 @@ a {
 
 #add-shape {
   position: absolute;
-  top: 170px;
-  right: 10px;
+  top: 10px;
+  left: 405px;
 }
 
 #done-adding {
@@ -244,3 +244,29 @@ a {
   color: white;
   font-size: xx-large;
 }
+
+
+#redmetrics-connection-status {
+  position: absolute;
+  text-align: left;
+  width: 960px;
+  height: 540px;
+  left: 10px;
+  top: 510px;
+  font-size: small;
+}
+
+#redmetrics-connection-status-connecting {
+  color: grey;
+}
+
+#redmetrics-connection-status-connected {
+  display: none;
+  color: limegreen;
+}
+
+#redmetrics-connection-status-disconnected {
+  display: none;
+  color: brown;
+}
+

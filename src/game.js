@@ -9,10 +9,28 @@ const MAX_SEARCH_TIME = 12 * 60 * 1000;
 const BLOCK_COLOR = 0x81e700;
 const HIGHLIGHTED_BLOCK_COLOR = 0x59853b;
 const DRAG_HIGHLIGHT_PERIOD = 500;
-// const RED_METRICS_HOST = "api.creativeforagingtask.com";
-// const RED_METRICS_GAME_VERSION = "0b0986f3-9119-4d90-82fb-20ee4842da69";
-const RM2_BASE_URL = "http://localhost:6627/v2";
-const RM2_API_KEY = "92f2e314-86be-4b5d-a973-10ddec897035";
+const RM2_BASE_URL = "http://ec2-3-17-144-242.us-east-2.compute.amazonaws.com:6627/v2";
+const RM2_API_KEY = "9af6823d-c77a-4ea9-9ea2-ac12dbf8c07f";
+
+const TRIGGERS = {
+  "loadGame": 100, // When loads starts
+  "startGame": 3, // When pressing the button "let's play" - (A "start game" trigger)
+  "collectShape": 4, // EVENT - Every time the player presses the "collect shape" button (either in the tutorial or in game time)
+  "endGame": 5, // When a player presses the "end game" button- (An "end game" trigger)
+  "chooseGalleryShape": 6, // EVENT - Every time a choice of a gallery shape is done (in the "choose the 5 most creative shapes" screen)
+  "galleryDone": 7, // At the gallery screen - When the player presses "all done" (An "end choice" trigger).
+};
+
+
+function sendTrigger(name) {
+  if(!ws || ws.readyState != WebSocket.OPEN) {
+    console.warn("Websocket connection not available. Skipping trigger", name);
+    return;
+  }
+
+  const trigger = TRIGGERS[name];
+  ws.send(trigger.toString());
+}
 
 
 function gridPosToPixelPos(gridPos) {
@@ -178,7 +196,11 @@ class TrainingScene extends util.Entity {
     document.getElementById("training-gui").style.display = "block";
     document.getElementById("done-training-1").addEventListener("click", this.onDonePart1.bind(this));
     document.getElementById("done-training-2").addEventListener("click", this.onDonePart2.bind(this));
-    document.getElementById("done-training-4").addEventListener("click", e => this.done = true);
+    document.getElementById("done-training-4").addEventListener("click", e => {
+      this.done = true;
+
+      sendTrigger("startGame");
+    });
   }
 
   update(timeSinceStart) {
@@ -208,6 +230,9 @@ class TrainingScene extends util.Entity {
   onDonePart1() {
     document.getElementById("training-1").style.display = "none";
     document.getElementById("training-2").style.display = "block";
+
+    // hide title
+    document.getElementById("training-title").style.visibility = "hidden";
   }
 
   onDonePart2() {
@@ -292,9 +317,11 @@ class BlockScene extends util.Entity {
     this.onAttemptDone = this.onAttemptDone.bind(this);
     this.cancelModal = this.cancelModal.bind(this);
     this.confirmDone = this.confirmDone.bind(this);
+    this.onKeyUp = this.onKeyUp.bind(this);
     document.getElementById("add-shape").addEventListener("click", this.onAddShape);
     document.getElementById("modal-confirm-cancel-button").addEventListener("click", this.cancelModal);
     document.getElementById("modal-confirm-done-button").addEventListener("click", this.confirmDone);
+    document.getElementById("pixi-canvas").addEventListener("keyup", this.onKeyUp);
 
     // Don't allow player to leave early if allowEarlyExit is false
     const doneAddingButton = document.getElementById("done-adding");
@@ -415,6 +442,11 @@ class BlockScene extends util.Entity {
     this.draggingBlock.position = util.subtract(e.data.getLocalPosition(app.stage), this.blocksContainer.position);
   }
 
+  onKeyUp(e) {
+    // If they pressed a number key, add the shape
+    if(!isNaN(parseInt(e.key))) this.onAddShape();
+  }
+
   updateBlocks() {
     this.updateTargetBlockContainerPosition();
     this.updateBlockInteractivity();
@@ -523,6 +555,7 @@ class BlockScene extends util.Entity {
     if(!this.changedShape) return;
     if(this.draggingBlock) return; // Can't add shape while dragging
 
+    sendTrigger("collectShape");
 
     const galleryShape = util.cloneData(this.blockGrid)
     galleryShapes.push(galleryShape);
@@ -559,6 +592,8 @@ class BlockScene extends util.Entity {
   }
 
   confirmDone() {
+    sendTrigger("endGame");
+
     this.done = true;
 
     searchScore = calculateSearchScore()
@@ -659,6 +694,8 @@ class GalleryScene extends util.Entity {
 
     this.updateDoneButton();
 
+    sendTrigger("chooseGalleryShape");
+
     redmetricsConnection.postEvent({
       type: "selected shape",
       custom_data: {
@@ -684,6 +721,8 @@ class GalleryScene extends util.Entity {
 
   onDoneSelection() {
     const selectedShapes = _.map(this.selectedIndexes, index => convertShapeToArray(galleryShapes[index]));
+
+    sendTrigger("galleryDone");
 
     redmetricsConnection.postEvent({
       type: "done selection",
@@ -810,6 +849,13 @@ app.loader
   .load(setup);
 
 // Load RedMetrics
+function showRedMetricsStatus(status) {
+  for(const child of document.getElementById("redmetrics-connection-status").children) {
+    const shouldShow = child.id === `redmetrics-connection-status-${status}`;
+    child.style.display = shouldShow ? "block" : "none";
+  }
+}
+
 let playerData = {
   externalId: searchParams.get("userId") || searchParams.get("userID"),
   custom_data: {
@@ -820,16 +866,27 @@ let playerData = {
 };
 
 redmetricsConnection = new rm2.WriteConnection({ 
-  // host: RED_METRICS_HOST,
-  // gameVersionId: RED_METRICS_GAME_VERSION,
-
-  session: playerData,
   baseUrl: RM2_BASE_URL,
-  apiKey: RM2_API_KEY
+  apiKey: RM2_API_KEY,
+  session: playerData,
 });
 redmetricsConnection.connect().then(function() {
   console.log("Connected to RM2");
+  showRedMetricsStatus("connected");
+}).catch(function() {
+  showRedMetricsStatus("disconnected");
 });
+
+// Connect to parallel port via Mister P
+let webSocketScheme = window.location.protocol === "https:" ? "wss" : "ws"; 
+let ws = new WebSocket(`${webSocketScheme}://localhost:53141/`);
+ws.onopen = () => {
+  console.log("Connected to Mister P on port 53141");
+  sendTrigger("loadGame");
+};
+ws.onerror = (error) => {
+  console.error("Error communicating on WebSocket", error);
+};
 
 // Resize
 util.resizeGame(app);
