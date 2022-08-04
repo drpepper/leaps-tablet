@@ -9,7 +9,9 @@ const MAX_SEARCH_TIME = 12 * 60 * 1000;
 const BLOCK_COLOR = 0x81e700;
 const HIGHLIGHTED_BLOCK_COLOR = 0x59853b;
 const DRAG_HIGHLIGHT_PERIOD = 500;
-const RM2_BASE_URL = "http://ec2-3-17-144-242.us-east-2.compute.amazonaws.com:6627/v2";
+const RM2_PROTOCOL = "http";
+const RM2_HOST = "ec2-3-17-144-242.us-east-2.compute.amazonaws.com";
+const RM2_PORT = 6627;
 const RM2_API_KEY = "9af6823d-c77a-4ea9-9ea2-ac12dbf8c07f";
 
 const TRIGGERS = {
@@ -170,7 +172,7 @@ class IntroScene extends util.Entity {
   }
 
   onDone() {
-    playerData.custom_data.userProvidedId = document.getElementById("user-provided-id").value;
+    playerData.customData.userProvidedId = document.getElementById("user-provided-id").value;
     redmetricsConnection.updateSession(playerData);
 
     this.done = true;
@@ -777,7 +779,7 @@ class ResultsScene extends util.Entity {
         const expId = searchParams.get("expId") || searchParams.get("expID") || "";
         const userId = searchParams.get("userId") || searchParams.get("userID") || "";
         const metricsId = redmetricsConnection.sessionId || "";
-        const userProvidedId = playerData.custom_data.userProvidedId || "";
+        const userProvidedId = playerData.customData.userProvidedId || "";
 
         var link = searchParams.get("followupLink");
         if(!_.contains(link, "?")) link += "?";
@@ -857,7 +859,7 @@ function showRedMetricsStatus(status) {
 
 let playerData = {
   externalId: searchParams.get("userId") || searchParams.get("userID"),
-  custom_data: {
+  customData: {
     expId: searchParams.get("expId") || searchParams.get("expID"),
     userId: searchParams.get("userId") || searchParams.get("userID"),
     userAgent: navigator.userAgent
@@ -865,7 +867,9 @@ let playerData = {
 };
 
 redmetricsConnection = new rm2.WriteConnection({ 
-  baseUrl: RM2_BASE_URL,
+  protocol: RM2_PROTOCOL,
+  host: RM2_HOST,
+  port: RM2_PORT,
   apiKey: RM2_API_KEY,
   session: playerData,
 });
