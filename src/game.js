@@ -484,7 +484,7 @@ class BlockScene extends util.Entity {
     this.lastMouseUpTime = Date.now();
     redmetricsConnection.postEvent({
       type: "movedBlock",
-      custom_data: {
+      customData: {
         startPosition: pointToArray(this.draggingBlockStartGridPosition),
         endPosition: pointToArray(closestGridPos),
         time: Date.now() - this.startDragTime,
@@ -567,8 +567,7 @@ class BlockScene extends util.Entity {
 
     redmetricsConnection.postEvent({
       type: "added shape to gallery",
-      // TODO: rename back to `customData` once bug is fixed in backend
-      custom_data: {
+      customData: {
         shape: convertShapeToArray(this.blockGrid),
         timeSinceLastMouseUp: Date.now() - this.lastMouseUpTime
       }
@@ -698,7 +697,7 @@ class GalleryScene extends util.Entity {
 
     redmetricsConnection.postEvent({
       type: "selected shape",
-      custom_data: {
+      customData: {
         shapeIndex: shapeIndex,
         shape: convertShapeToArray(galleryShapes[shapeIndex]),
         isSelected: isSelected,
@@ -726,7 +725,7 @@ class GalleryScene extends util.Entity {
 
     redmetricsConnection.postEvent({
       type: "done selection",
-      custom_data: {
+      customData: {
         shapeIndices: this.selectedIndexes,
         shapes: selectedShapes
       }

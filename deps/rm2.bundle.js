@@ -43,14 +43,6 @@ var rm2 = (() => {
     return __reExport(__markAsModule(__defProp(module != null ? __create(__getProtoOf(module)) : {}, "default", module && module.__esModule && "default" in module ? { get: () => module.default, enumerable: true } : { value: module, enumerable: true })), module);
   };
 
-  // node_modules/rm2-typings/dist/types/base.js
-  var require_base = __commonJS({
-    "node_modules/rm2-typings/dist/types/base.js"(exports) {
-      "use strict";
-      Object.defineProperty(exports, "__esModule", { value: true });
-    }
-  });
-
   // node_modules/rm2-typings/dist/types/tables.js
   var require_tables = __commonJS({
     "node_modules/rm2-typings/dist/types/tables.js"(exports) {
@@ -59,25 +51,9 @@ var rm2 = (() => {
     }
   });
 
-  // node_modules/rm2-typings/dist/types/api/auth.js
-  var require_auth = __commonJS({
-    "node_modules/rm2-typings/dist/types/api/auth.js"(exports) {
-      "use strict";
-      Object.defineProperty(exports, "__esModule", { value: true });
-    }
-  });
-
-  // node_modules/rm2-typings/dist/types/api/game.js
-  var require_game = __commonJS({
-    "node_modules/rm2-typings/dist/types/api/game.js"(exports) {
-      "use strict";
-      Object.defineProperty(exports, "__esModule", { value: true });
-    }
-  });
-
-  // node_modules/rm2-typings/dist/types/api/events.js
-  var require_events = __commonJS({
-    "node_modules/rm2-typings/dist/types/api/events.js"(exports) {
+  // node_modules/rm2-typings/dist/types/routes.js
+  var require_routes = __commonJS({
+    "node_modules/rm2-typings/dist/types/routes.js"(exports) {
       "use strict";
       Object.defineProperty(exports, "__esModule", { value: true });
     }
@@ -104,9 +80,7 @@ var rm2 = (() => {
             __createBinding(exports2, m, p);
       };
       Object.defineProperty(exports, "__esModule", { value: true });
-      __exportStar(require_auth(), exports);
-      __exportStar(require_game(), exports);
-      __exportStar(require_events(), exports);
+      __exportStar(require_routes(), exports);
     }
   });
 
@@ -1387,7 +1361,13 @@ var rm2 = (() => {
         if (!rest)
           throw new Error("Axios config not defined. Please call the utils.setupConfig() method!");
         const _method = method.toLowerCase();
-        return rest[_method](route, body, config).then((response) => response.data);
+        switch (_method) {
+          case "get":
+          case "delete":
+            return rest[_method](route, config);
+          default:
+            return rest[_method](route, body, config);
+        }
       }
       exports.request = request;
       function buildRouteMaker(router) {
@@ -1401,6 +1381,14 @@ var rm2 = (() => {
         router[_method](route, ...listeners);
       }
       exports.createRoute = createRoute;
+    }
+  });
+
+  // node_modules/rm2-typings/dist/types/scalable.js
+  var require_scalable = __commonJS({
+    "node_modules/rm2-typings/dist/types/scalable.js"(exports) {
+      "use strict";
+      Object.defineProperty(exports, "__esModule", { value: true });
     }
   });
 
@@ -1424,11 +1412,6 @@ var rm2 = (() => {
       } : function(o, v) {
         o["default"] = v;
       });
-      var __exportStar = exports && exports.__exportStar || function(m, exports2) {
-        for (var p in m)
-          if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports2, p))
-            __createBinding(exports2, m, p);
-      };
       var __importStar = exports && exports.__importStar || function(mod) {
         if (mod && mod.__esModule)
           return mod;
@@ -1441,13 +1424,18 @@ var rm2 = (() => {
         __setModuleDefault(result, mod);
         return result;
       };
+      var __exportStar = exports && exports.__exportStar || function(m, exports2) {
+        for (var p in m)
+          if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports2, p))
+            __createBinding(exports2, m, p);
+      };
       Object.defineProperty(exports, "__esModule", { value: true });
       exports.utils = exports.full = exports.api = exports.tables = void 0;
-      __exportStar(require_base(), exports);
       exports.tables = __importStar(require_tables());
       exports.api = __importStar(require_api());
       exports.full = __importStar(require_full());
       exports.utils = __importStar(require_utils2());
+      __exportStar(require_scalable(), exports);
     }
   });
 
@@ -1459,14 +1447,16 @@ var rm2 = (() => {
   var types = __toModule(require_dist());
   var WriteConnection = class {
     constructor(_config) {
+      this._config = _config;
       this._eventQueue = [];
+      this._buffering = false;
       this._bufferingInterval = null;
       this._connected = false;
       this._api = types.utils.request;
-      this._config = _config;
+      var _a, _b, _c, _d;
       types.utils.setupConfig({
         params: { apikey: _config.apiKey },
-        baseURL: _config.baseUrl
+        baseURL: `${(_a = _config.protocol) != null ? _a : "http"}://${(_b = _config.host) != null ? _b : "localhost"}:${(_c = _config.port) != null ? _c : 6627}${(_d = _config.path) != null ? _d : "/v2"}`
       });
     }
     get isConnected() {
@@ -1486,7 +1476,7 @@ var rm2 = (() => {
       if (!apiKey)
         throw new Error("Invalid API key !");
       console.log("RM2: WriteConnection connected");
-      const data = await this._api("Post", "/session", this._config.session ? this._config.session : {});
+      const { data } = await this._api("Post", "/session", this._config.session ? this._config.session : {});
       this._sessionId = data.id;
       console.log("created session", this._sessionId);
       this._connected = true;
@@ -1498,37 +1488,41 @@ var rm2 = (() => {
         return;
       }
       clearInterval(this._bufferingInterval);
-      this.postEvent("end", __spreadValues({}, emitted));
+      this.postEvent(__spreadProps(__spreadValues({}, emitted), { type: "end" }));
       await this.sendData();
       this._bufferingInterval = null;
       this._connected = false;
     }
     async sendData() {
+      if (this._buffering || this._eventQueue.length === 0)
+        return 0;
       if (!this._connected) {
         throw new Error("RM2: \u274C WriteConnection client not connected");
       }
-      if (this._eventQueue.length === 0) {
-        return 0;
-      }
+      this._buffering = true;
       const eventData = this._eventQueue.map((event) => __spreadProps(__spreadValues({}, event), {
-        session_id: this._sessionId
+        sessionId: this._sessionId
       }));
       console.log("RM2: WriteConnection sending events", eventData);
-      await this._api("Post", "/event", eventData).then(() => {
+      try {
+        await this._api("Post", "/event", eventData);
         this._eventQueue = [];
-      });
+        eventData.length = 0;
+      } catch (error) {
+        if (/[45]\d{2}/.test(error.message)) {
+          this._connected = false;
+          console.error(error);
+          throw new Error("RM2: \u274C WriteConnection connection crash");
+        } else {
+        }
+      }
+      this._buffering = false;
       return eventData.length;
     }
-    postEvent(typeOrEvent, event) {
-      let eventToPost;
-      if (typeof typeOrEvent === "string") {
-        eventToPost = { type: typeOrEvent };
-      } else {
-        eventToPost = typeOrEvent;
-      }
-      if (!eventToPost.user_time)
-        eventToPost.user_time = new Date().toISOString();
-      this._eventQueue.push(eventToPost);
+    postEvent(event) {
+      if (!event.userTimestamp)
+        event.userTimestamp = new Date().toISOString();
+      this._eventQueue.push(event);
     }
     async updateSession(session) {
       this._config.session = session;
