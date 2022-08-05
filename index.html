@@ -10,7 +10,7 @@
 <body>
   <div id="game-parent">
     <div id="game-container"> 
-      <canvas id="pixi-canvas"></canvas>
+      <canvas id="pixi-canvas" tabindex="0"></canvas>
 
       <div id="html-layer">
         <div id="sections">
@@ -23,7 +23,7 @@
             <br><button id="done-intro">Continue</button></p>
           </div>
           <div id="training-gui">
-            <h1>Training Session</h1>
+            <h1 id="training-title">Training Session</h1>
             <div id="training-1">
               <p>In this game you are going to explore the space of “shifting shapes” 
                 <br>and make interesting and beautiful shapes. 
@@ -132,7 +132,12 @@
         <i id="fullscreen-button-small" class="icon-resize-small"></i>
       </div>
 
+      <div id="redmetrics-connection-status">
+        <p id="redmetrics-connection-status-connected">Connected to RedMetrics</p>
+        <p id="redmetrics-connection-status-disconnected">Not connected to RedMetrics</p>
+        <p id="redmetrics-connection-status-connecting">Connecting to RedMetrics...</p>
       </div>
+
     </div>
   </div>
 
@@ -140,7 +145,7 @@
   <script src="deps/q.js"></script>
   <script src="deps/q-xhr.js"></script>
   <script src="deps/underscore.js"></script>
-  <script src="deps/redmetrics.js"></script>
+  <script src="deps/rm2.bundle.js"></script>
 
   <script src="bundle.js"></script>
   </body>
