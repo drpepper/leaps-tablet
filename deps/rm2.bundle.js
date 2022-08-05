@@ -1453,10 +1453,14 @@ var rm2 = (() => {
       this._bufferingInterval = null;
       this._connected = false;
       this._api = types.utils.request;
-      var _a, _b, _c, _d;
+      var _a, _b, _c;
+      const protocol = (_a = _config.protocol) != null ? _a : "http";
+      const host = (_b = _config.host) != null ? _b : "localhost";
+      const portString = _config.port ? `:${_config.port}` : "";
+      const path = (_c = _config.path) != null ? _c : "/v2";
       types.utils.setupConfig({
         params: { apikey: _config.apiKey },
-        baseURL: `${(_a = _config.protocol) != null ? _a : "http"}://${(_b = _config.host) != null ? _b : "localhost"}:${(_c = _config.port) != null ? _c : 6627}${(_d = _config.path) != null ? _d : "/v2"}`
+        baseURL: `${protocol}://${host}${portString}${path}`
       });
     }
     get isConnected() {

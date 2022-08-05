@@ -9,9 +9,8 @@ const MAX_SEARCH_TIME = 12 * 60 * 1000;
 const BLOCK_COLOR = 0x81e700;
 const HIGHLIGHTED_BLOCK_COLOR = 0x59853b;
 const DRAG_HIGHLIGHT_PERIOD = 500;
-const RM2_PROTOCOL = "http";
-const RM2_HOST = "ec2-3-17-144-242.us-east-2.compute.amazonaws.com";
-const RM2_PORT = 6627;
+const RM2_PROTOCOL = "https";
+const RM2_HOST = "api.creativeforagingtask.com";
 const RM2_API_KEY = "9af6823d-c77a-4ea9-9ea2-ac12dbf8c07f";
 
 const TRIGGERS = {
@@ -869,7 +868,6 @@ let playerData = {
 redmetricsConnection = new rm2.WriteConnection({ 
   protocol: RM2_PROTOCOL,
   host: RM2_HOST,
-  port: RM2_PORT,
   apiKey: RM2_API_KEY,
   session: playerData,
 });
